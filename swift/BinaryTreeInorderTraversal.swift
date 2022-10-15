@@ -1,4 +1,4 @@
-// https://leetcode.com/problems/binary-tree-preorder-traversal/
+// https://leetcode.com/problems/binary-tree-inorder-traversal/
 
 /**
  * Definition for a binary tree node.
@@ -17,23 +17,21 @@
  */
 
 class Solution {
-    func preorderTraversal(_ root: TreeNode?) -> [Int] {
+    func inorderTraversal(_ root: TreeNode?) -> [Int] {
         guard root != nil else { return [] }
-
-        var stack: [TreeNode] = [root!]
+        var stack = [TreeNode]()
         var result = [Int]()
 
-        while !stack.isEmpty {
-            var current = stack.removeLast()
-            result.append(current.val)
+        var curr = root
 
-            if current.right != nil {
-                stack.append(current.right!)
+        while !stack.isEmpty || curr != nil {
+            while curr != nil {
+                stack.append(curr!)
+                curr = curr?.left
             }
-
-            if current.left != nil {
-                stack.append(current.left!)
-            }
+            curr = stack.removeLast()
+            result.append(curr!.val)
+            curr = curr?.right
         }
 
         return result
