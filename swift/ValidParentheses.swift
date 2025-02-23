@@ -1,28 +1,23 @@
 // https://leetcode.com/problems/valid-parentheses/
 
 class Solution {
-    
-    var array = [Character]()
-    var map: [Character: Character] = [")": "(", "}": "{", "]": "["]
-    var opens: Set<Character> = ["(", "{", "["]
-    
+    let hash: [Character: Character] = [
+        "(" : ")",
+        "[" : "]",
+        "{" : "}"
+    ]
+
     func isValid(_ s: String) -> Bool {
-        for i in s {
-            if opens.contains(i) {
-                array.append(i)
-            } else {
-                if let last = array.last, let open = map[i] {
-                    if last != open {
-                        return false
-                    } else {
-                        array.removeLast()
-                    }
-                } else {
-                    return false
-                }
+        var stack = [Character]()
+
+        for c in s {
+            if c == "(" || c == "[" || c == "{" {
+                stack.append(c)
+            } else if stack.isEmpty || hash[stack.removeLast()] != c {
+                return false
             }
         }
-        
-        return array.count == 0
+
+        return stack.isEmpty
     }
 }
