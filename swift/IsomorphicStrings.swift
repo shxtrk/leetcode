@@ -2,24 +2,22 @@
 
 class Solution {
     func isIsomorphic(_ s: String, _ t: String) -> Bool {
-        var smap = [Character: Character]()
-        var tmap = [Character: Character]()
-        for i in s.indices {
-            if smap[s[i]] != nil {
-                if smap[s[i]] != t[i] {
-                    return false
-                }
-            } else {
-                smap[s[i]] = t[i]
+        var first = [Character: Character]()
+        var second = [Character: Character]()
+
+        var index = s.startIndex
+        while index < s.endIndex {
+            if let tChar = first[s[index]], tChar != t[index] {
+                return false
             }
-            if tmap[t[i]] != nil {
-                if tmap[t[i]] != s[i] {
-                    return false
-                }
-            } else {
-                tmap[t[i]] = s[i]
+            if let sChar = second[t[index]], sChar != s[index] {
+                return false
             }
+            first[s[index]] = t[index]
+            second[t[index]] = s[index]
+            index = s.index(after: index)
         }
+
         return true
     }
 }
